@@ -1,5 +1,7 @@
 # 將完整專案移轉到新的 GitHub Repository
 
+更新：原始碼現已移轉至 `Angelo-Liao/plant-cover-trainer`。若你是這個 repository 的擁有者，不必再執行以下推送步驟；接下來只需設定 Settings → Pages → GitHub Actions。以下保留作為備份還原或將來搬往其他 repository 的說明。
+
 這個網站是獨立專案，不依賴原先 Cloud Environment 連結的 repository。交付時，本機 `/workspace/plant-cover-trainer` 沒有設定 Git remote，也未推送到任何 GitHub repository。
 
 所有現有工作檔案會保留。以下指令由專案擁有者在確認新的 repository 可以接收程式碼後執行；不會自動操作原先連結的 repository。

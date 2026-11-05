@@ -2,6 +2,14 @@
 
 驗證日期：2026-11-05（Asia/Taipei）。
 
+## 移轉後的最新狀態
+
+- 程式碼已移轉至 `Angelo-Liao/plant-cover-trainer`，保留擁有者原本的 README 簡介、MIT 授權與初始提交。
+- GitHub Actions 已實際通過依賴安裝、TypeScript 型別檢查、10 組單元測試與 Vite／單檔建置。這些項目不再受原 Cloud 工作環境的 npm 連線限制。
+- 首輪瀏覽器安裝因 `ubuntu-latest` 指向尚不受指定 Playwright 版本支援的 Ubuntu 26.04 而失敗。工作流程改為明確指定 Ubuntu 24.04，重新驗證瀏覽器案例。
+- Pages 仍須在 repository 的 Settings → Pages 選擇 GitHub Actions；網站可用狀態以部署工作流程結果為準。
+- 以下為初次匯出時的環境紀錄，保留以區分本機測試與之後的 GitHub CI 結果。
+
 ## 已執行且通過
 
 - `node --test tests/*.test.mjs`：10 組測試全部通過，約 7 秒。
