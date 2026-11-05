@@ -6,8 +6,10 @@
 
 - 程式碼已移轉至 `Angelo-Liao/plant-cover-trainer`，保留擁有者原本的 README 簡介、MIT 授權與初始提交。
 - GitHub Actions 已實際通過依賴安裝、TypeScript 型別檢查、10 組單元測試與 Vite／單檔建置。這些項目不再受原 Cloud 工作環境的 npm 連線限制。
-- 首輪瀏覽器安裝因 `ubuntu-latest` 指向尚不受指定 Playwright 版本支援的 Ubuntu 26.04 而失敗。工作流程改為明確指定 Ubuntu 24.04，重新驗證瀏覽器案例。
-- Pages 仍須在 repository 的 Settings → Pages 選擇 GitHub Actions；網站可用狀態以部署工作流程結果為準。
+- 首輪瀏覽器安裝因 `ubuntu-latest` 指向尚不受指定 Playwright 版本支援的 Ubuntu 26.04 而失敗，已固定使用 Ubuntu 24.04。
+- Chromium、Firefox、WebKit 的完整瀏覽器案例全部通過，包含三種模式、完整測驗與 `file://` 離線包操作。測試封鎖所有 HTTP/S 請求並斷言沒有外部依賴；避免 WebKit 在 Linux 上的 offline 模擬連本機檔案導航也關閉的測試引擎問題。這不等於真實 iPhone／Safari 裝置的人工驗收。
+- [完整檢查成功紀錄](https://github.com/Angelo-Liao/plant-cover-trainer/actions/runs/41962185865)。
+- 擁有者已啟用 GitHub Actions 作為 Pages 來源。[發布及正式網站／離線 ZIP 下載檢查均成功](https://github.com/Angelo-Liao/plant-cover-trainer/actions/runs/41962185848)。正式網址：https://angelo-liao.github.io/plant-cover-trainer/
 - 以下為初次匯出時的環境紀錄，保留以區分本機測試與之後的 GitHub CI 結果。
 
 ## 已執行且通過
