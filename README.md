@@ -6,7 +6,7 @@
 
 **[線上使用](https://angelo-liao.github.io/plant-cover-trainer/)** · **[下載離線 ZIP](https://angelo-liao.github.io/plant-cover-trainer/plant-cover-trainer-offline.zip)** · **[版本下載](https://github.com/Angelo-Liao/plant-cover-trainer/releases/latest)**
 
-> 發布狀態：網站連結需在 Settings → Pages 選擇 GitHub Actions，並成功部署後才會可用；本機可直接使用建置後的 `dist/index.html`。維護者確認首次部署成功後即可移除此提示。
+網站已透過 GitHub Pages 發布。日後更新 `main` 時，GitHub Actions 會自動測試、建置與重新發布；fork 後需在自己的 Settings → Pages 選擇 GitHub Actions。
 
 免費、免登入、無後端、無追蹤、無外部字型或 CDN。原始碼與網站皆可放在同一個公開 GitHub repository；MIT 授權，可自由 fork。
 

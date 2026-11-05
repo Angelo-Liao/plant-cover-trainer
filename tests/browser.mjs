@@ -20,6 +20,7 @@ const browsers = (process.env.BROWSERS || 'chromium').split(',');
 const summary = [];
 try {
   for (const browserName of browsers) {
+    console.log(`Starting ${browserName} acceptance checks`);
     const engine = { chromium, firefox, webkit }[browserName];
     const browser = await engine.launch({ headless: true, ...(browserName === 'chromium' && process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}) });
     try {
@@ -99,13 +100,16 @@ try {
       await page.screenshot({ path: path.join(root, `artifacts/${browserName}-mobile.png`), fullPage: true });
       await page.locator('#help-open').click(); assert.equal(await page.locator('#help-dialog').isVisible(), true);
       await page.keyboard.press('Escape'); assert.equal(await page.locator('#help-dialog').isVisible(), false);
-      // Genuine file:// offline launch, with network explicitly disabled.
+      // Genuine file:// launch with every HTTP/S request blocked. WebKit's
+      // offline emulation also disables local navigation on Linux, so block
+      // network transport explicitly instead of setting that emulator flag.
       // A managed browser may deny file:// by policy. Never work around it;
       // an explicit opt-out reports this acceptance case as NOT VERIFIED.
       if (process.env.SKIP_FILE_TEST === '1') {
         summary.push(`${browserName}: file:// offline NOT VERIFIED (managed browser policy; explicit skip)`);
       } else {
-      const offlineContext = await browser.newContext({ offline: true, viewport: { width: 1024, height: 900 } });
+      const offlineContext = await browser.newContext({ viewport: { width: 1024, height: 900 } });
+      await offlineContext.route(/^https?:\/\//, route => route.abort('internetdisconnected'));
       const offline = await offlineContext.newPage(); const external = [];
       offline.on('request', r => { if (/^https?:/.test(r.url())) external.push(r.url()); });
       offline.on('pageerror', e => errors.push(e.message));
@@ -137,6 +141,7 @@ try {
       assert.deepEqual(errors, []);
       assert.ok(requests.every(r => r.startsWith(url)), `Unexpected dependency requests: ${requests}`);
       summary.push(`${browserName}: flows, scoring, exam, review, settings, mobile, dialogs, storage denial, subpath PASS${process.env.SKIP_FILE_TEST === '1' ? '' : '; file offline PASS'}`);
+      console.log(summary[summary.length - 1]);
       await context.close();
     } finally { await browser.close(); }
   }
