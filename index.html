@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#204f3d" />
+  <meta name="description" content="免費、可離線使用的植物覆蓋度判讀訓練。練習、測驗與示範，校準你對枝葉面積比例的直覺。" />
+  <title>植被尺｜植物覆蓋度判讀訓練</title>
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="植被尺首頁"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 15V6h9M25 6h9v9M34 25v9h-9M15 34H6v-9"/><path d="M13 27C12 16 19 10 28 11c1 9-5 17-15 16Zm0 0 10-11"/></svg><span>植被尺<small>植物覆蓋度判讀訓練</small></span></a>
+    <button id="help-open" class="text-button">怎麼判讀？ <span aria-hidden="true">↗</span></button>
+  </header>
+  <main>
+    <div class="intro"><div><p class="eyebrow">讓每一次目測，更有把握</p><h1>這些枝葉，占了多少面積？</h1><p>觀察樣方，估計植物遮住的比例。重疊只算一次，空隙不計入。</p></div><span class="local-badge"><span></span>免登入・可離線</span></div>
+    <nav class="modes" aria-label="訓練模式"><button data-mode="practice" aria-pressed="true">即時練習</button><button data-mode="exam" aria-pressed="false">20 題測驗</button><button data-mode="demo" aria-pressed="false">自由示範</button></nav>
+    <p id="storage-warning" class="notice" hidden role="status">瀏覽器無法儲存資料。仍可完成訓練，但關閉後不會保留紀錄。</p>
+    <div class="workspace">
+      <section class="training" aria-label="判讀樣方">
+        <div class="plot-meta"><span id="mode-label">即時練習</span><span id="question-label">第 1 題</span></div>
+        <div class="plot-wrap"><canvas id="plot" width="1024" height="1024" aria-label="植物正射樣方；請目測枝葉占正方形面積的百分比" role="img"></canvas><div id="loading" class="loading" role="status">正在準備樣方…</div></div>
+        <div class="plot-caption"><span>正射樣方 <span aria-hidden="true">↗</span></span><span id="appearance-label">純剪影</span></div>
+        <div id="generation-error" class="notice" hidden role="alert"><span></span><button id="retry" class="secondary">重新出題</button></div>
+        <form id="answer-form" novalidate>
+          <label for="estimate">你估計的覆蓋度</label>
+          <div class="answer-row"><div class="number-wrap"><input id="estimate" type="text" inputmode="decimal" autocomplete="off" maxlength="5" aria-describedby="answer-hint input-error" placeholder="輸入估計值" /><span>%</span></div><button id="submit" class="primary" type="submit">確認答案 <span aria-hidden="true">↵</span></button></div>
+          <p id="answer-hint" class="hint">0–100%，可輸入一位小數。按 Enter 確認。</p><p id="input-error" class="error" role="alert" hidden></p>
+        </form>
+        <div id="demo-panel" hidden><div class="demo-value"><label for="demo-target">目標覆蓋度</label><span><input id="demo-target" type="number" min="0" max="100" step="0.1" value="25" aria-label="示範目標覆蓋度" /> %</span></div><input id="demo-slider" type="range" min="0" max="100" step="0.1" value="25" aria-label="調整示範覆蓋度" /><div class="range-labels"><span>0%</span><span>50%</span><span>100%</span></div><p id="demo-error" class="error" role="alert" hidden></p><button id="reshuffle" class="secondary">換一種分布 <span aria-hidden="true">↻</span></button><p id="demo-actual" class="hint"></p></div>
+        <section id="feedback" class="feedback" hidden aria-live="polite"></section>
+        <div id="aids" class="aids" hidden><div class="aid-controls"><label><input type="checkbox" id="grid" />10×10 參考網格</label><label><input type="checkbox" id="silhouette" />純剪影對照</label><label><input type="checkbox" id="equivalent-toggle" />同面積色塊</label></div><div id="equivalent" class="equivalent" hidden><div class="equivalent-square"><div id="equivalent-fill"></div></div><p>把所有枝葉面積集中在一起。<br /><span id="equivalent-label"></span></p></div></div>
+        <button id="next" class="primary next-button" hidden>下一題 <span aria-hidden="true">→</span></button>
+        <section id="summary" class="summary" hidden tabindex="-1"></section>
+      </section>
+      <aside>
+        <details id="settings-panel" class="settings-panel" open><summary>調整練習 <span class="summary-extra">依你的調查情境出題</span></summary>
+          <p id="settings-note" class="hint">調整後，從下一題開始套用。</p>
+          <fieldset id="settings-fields"><legend class="sr-only">出題設定</legend>
+            <div class="setting-group"><label>覆蓋度範圍</label><div class="presets"><button type="button" id="preset-all" class="chip active">一般 0–100%</button><button type="button" id="preset-low" class="chip">低覆蓋 0–10%</button></div><div class="range-inputs"><label class="sr-only" for="range-min">覆蓋度下限</label><input id="range-min" type="number" min="0" max="100" step="0.1" value="0" /><span>至</span><label class="sr-only" for="range-max">覆蓋度上限</label><input id="range-max" type="number" min="0" max="100" step="0.1" value="100" /><span>%</span></div><p class="error" id="range-error" hidden role="alert"></p></div>
+            <div class="setting-group"><label for="plant">植物外觀</label><select id="plant"><option value="random">隨機草本／木本</option><option value="herb">草本・細長葉叢</option><option value="woody">木本・分枝葉群</option></select></div>
+            <div class="settings-pair"><div class="setting-group"><label for="leaf-size">葉片大小</label><select id="leaf-size"><option value="small">小</option><option value="medium" selected>中</option><option value="large">大</option></select></div><div class="setting-group"><label for="cluster">聚集程度</label><select id="cluster"><option value="0">分散</option><option value="1" selected>中度聚集</option><option value="2">高度聚集</option></select></div></div>
+            <details class="advanced"><summary>進階外觀 <span>選用</span></summary><p class="hint">加入現場的視覺干擾，練習辨認真正的植物面積。</p>
+              <label class="check-line"><input id="color" type="checkbox" />顏色</label><div id="color-settings" hidden><label for="palette">枝葉配色</label><select id="palette"><option value="green">綠葉</option><option value="dry">枯葉</option><option value="mixed">綠葉與枯葉混合</option></select><label for="background">背景</label><select id="background"><option value="soil">淺土色</option><option value="dark">深土色</option><option value="sky">天空</option></select></div>
+              <label for="texture">紋理</label><select id="texture"><option value="0">關閉</option><option value="1">低</option><option value="2">中</option><option value="3">高</option></select>
+              <label for="shadow">陰影</label><select id="shadow"><option value="0">關閉</option><option value="1">低</option><option value="2">中</option><option value="3">高</option></select><p class="hint">背景上的投影不算植物覆蓋。</p>
+              <label for="depth">植物立體感</label><select id="depth"><option value="0">關閉</option><option value="1">低</option><option value="2">中</option><option value="3">高</option></select><p class="hint">改變葉片傾角與層次，仍以正射投影計算。</p>
+            </details>
+          </fieldset>
+        </details>
+        <section class="field-note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c-1-9 4-15 14-14 0 9-5 15-14 14Zm0 0L15 9"/></svg><div><h2>看的，是實際遮住的面積。</h2><p>葉片與枝幹都計入；重疊只算一次。不要把枝葉間的空隙，或地上的陰影算進去。</p></div></section>
+        <details id="history" class="history"><summary>最近的測驗 <span id="history-count">0 次</span></summary><div id="history-content"></div></details>
+      </aside>
+    </div>
+  </main>
+  <footer><span>植被尺 <span class="footer-dot">/</span> 校準目測的直覺</span><span>正射面積訓練・不取代現場驗證 <a href="https://github.com/Angelo-Liao/plant-cover-trainer" target="_blank" rel="noopener noreferrer">原始碼 ↗</a></span></footer>
+  <dialog id="help-dialog"><div class="dialog-heading"><h2>把樣方想成 100 份。</h2><button id="help-close" class="secondary" aria-label="關閉判讀說明">關閉</button></div><p>枝葉遮住幾份，覆蓋度就是多少%。計算以植物的正射投影為準：葉片與枝幹都計入、重疊只算一次、空隙與背景上的陰影不算。</p><ol><li>觀察正方形裡的植物。</li><li>輸入你估計的百分比。</li><li>揭曉後比較誤差，再練習下一題。</li></ol><p><strong>3% 估成 5%</strong>，是高估 2 個百分點，相對誤差約 67%。低覆蓋度時，兩者都值得留意。</p><p>示範模式可開啟網格、同面積色塊與純剪影對照。測驗固定 20 題，結束後才揭曉。</p><p class="hint">這是正射遮蔽比例訓練，不是魚眼照片分析，也不是沿樹冠外緣圈出的面積。立體感仍使用正交投影；是否改善實地調查一致性，需要現場資料驗證。</p></dialog>
+  <dialog id="leave-dialog"><h2>結束這次測驗？</h2><p>尚未完成的作答不會保存。完成 20 題後才會加入測驗紀錄。</p><div class="dialog-actions"><button id="leave-cancel" class="secondary">繼續測驗</button><button id="leave-confirm" class="primary">結束並切換</button></div></dialog>
+  <noscript>請啟用瀏覽器的 JavaScript，才能產生樣方與計算覆蓋度。</noscript>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

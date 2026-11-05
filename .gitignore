@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist-vite/
+artifacts/
+test-results/
+*.zip
+*.bundle
+EXPORT-MANIFEST.txt
