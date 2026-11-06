@@ -19,10 +19,13 @@
     <p id="storage-warning" class="notice" hidden role="status">瀏覽器無法儲存資料。仍可完成訓練，但關閉後不會保留紀錄。</p>
     <div class="workspace">
       <section class="training" aria-label="判讀樣方">
+        <div class="quadrat-panel">
         <div class="plot-meta"><span id="mode-label">即時練習</span><span id="question-label">第 1 題</span></div>
         <div class="plot-wrap"><canvas id="plot" width="1024" height="1024" aria-label="植物正射樣方；請目測枝葉占正方形面積的百分比" role="img"></canvas><div id="loading" class="loading" role="status">正在準備樣方…</div></div>
         <div class="plot-caption"><span>正射樣方 <span aria-hidden="true">↗</span></span><span id="appearance-label">純剪影</span></div>
         <div id="generation-error" class="notice" hidden role="alert"><span></span><button id="retry" class="secondary">重新出題</button></div>
+        </div>
+        <div class="response-panel" aria-label="作答與回饋">
         <form id="answer-form" novalidate>
           <label for="estimate">你估計的覆蓋度</label>
           <div class="answer-row"><div class="number-wrap"><input id="estimate" type="text" inputmode="decimal" autocomplete="off" maxlength="5" aria-describedby="answer-hint input-error" placeholder="輸入估計值" /><span>%</span></div><button id="submit" class="primary" type="submit">確認答案 <span aria-hidden="true">↵</span></button></div>
@@ -32,6 +35,7 @@
         <section id="feedback" class="feedback" hidden aria-live="polite"></section>
         <div id="aids" class="aids" hidden><div class="aid-controls"><label><input type="checkbox" id="grid" />10×10 參考網格</label><label><input type="checkbox" id="silhouette" />純剪影對照</label><label><input type="checkbox" id="equivalent-toggle" />同面積色塊</label></div><div id="equivalent" class="equivalent" hidden><div class="equivalent-square"><div id="equivalent-fill"></div></div><p>把所有枝葉面積集中在一起。<br /><span id="equivalent-label"></span></p></div></div>
         <button id="next" class="primary next-button" hidden>下一題 <span aria-hidden="true">→</span></button>
+        </div>
         <section id="summary" class="summary" hidden tabindex="-1"></section>
       </section>
       <aside>

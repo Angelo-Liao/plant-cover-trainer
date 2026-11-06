@@ -8,7 +8,7 @@
 
 網站已透過 GitHub Pages 發布。日後更新 `main` 時，GitHub Actions 會自動測試、建置與重新發布；fork 後需在自己的 Settings → Pages 選擇 GitHub Actions。
 
-免費、免登入、無後端、無追蹤、無外部字型或 CDN。原始碼與網站皆可放在同一個公開 GitHub repository；MIT 授權，可自由 fork。
+免費、免登入、無後端、無追蹤、不連接外部字型服務或 CDN。原始碼與網站皆可放在同一個公開 GitHub repository；程式碼採 MIT 授權，可自由 fork。
 
 此專案已整理為獨立 Git repository。完整匯出包、保留 Git 歷史及移轉至另一個 repository 的步驟，見 [專案移轉說明](docs/transfer.md)。
 
@@ -68,6 +68,8 @@
 下載 `plant-cover-trainer-offline.zip`，解壓後雙擊 `index.html`。不需 Node.js、Python、網路或登入；整個應用的程式與樣式皆內嵌於 HTML。
 
 設定與最近 20 次完整測驗保存在目前瀏覽器的 `localStorage`，不會上傳。換瀏覽器、清除網站資料或移動離線檔案，都可能使紀錄不再可見。部分瀏覽器不允許 `file://` 儲存，屆時會顯示提示，當次訓練仍可完成。測驗中途離開不會保存未完成的結果。
+
+介面使用與思源宋體同源的 Noto Serif CJK TC 開源字型，以繁體中文子集隨網站內嵌，離線時也能使用。字型保留 SIL Open Font License 1.1，授權附於 HTML 與離線 ZIP；來源及更新方式見 [字型說明](src/fonts/README.md)。數值輸入與結果使用清楚的等寬數字排列。
 
 ## 本機開發
 

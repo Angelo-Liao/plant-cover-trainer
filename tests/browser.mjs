@@ -31,10 +31,16 @@ try {
       page.on('request', request => requests.push(request.url()));
       const ready = async () => { await page.locator('#loading').waitFor({ state: 'hidden', timeout: 30000 }); assert.equal(await page.locator('#generation-error').isVisible(), false); };
       await page.goto(url); await ready();
+      await page.evaluate(() => document.fonts.ready);
+      assert.equal(await page.evaluate(() => document.fonts.check('400 17px "Plant Cover Serif TC"', '植被尺覆蓋度')), true);
+      assert.equal(await page.evaluate(() => document.fonts.check('700 34px "Plant Cover Serif TC"', '植被尺')), true);
       assert.equal(await page.locator('#feedback').isVisible(), false);
       assert.equal(await page.locator('#aids').isVisible(), false);
       assert.equal(await page.locator('#estimate').inputValue(), '');
       await page.screenshot({ path: path.join(root, `artifacts/${browserName}-desktop.png`), fullPage: true });
+      await page.setViewportSize({ width: 1920, height: 1080 });
+      await page.screenshot({ path: path.join(root, `artifacts/${browserName}-wide-desktop.png`), fullPage: true });
+      await page.setViewportSize({ width: 1365, height: 1100 });
       // Known target configured for next question checks the complete scoring path.
       await page.locator('#range-min').fill('3'); await page.locator('#range-min').dispatchEvent('change');
       await page.locator('#range-max').fill('3'); await page.locator('#range-max').dispatchEvent('change');
